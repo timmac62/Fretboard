@@ -6,6 +6,7 @@ from rich.theme import Theme
 from rich.panel import Panel
 
 import random
+import time
 
 STRING1 = 1
 STRING2 = 2
@@ -32,22 +33,25 @@ fretboard = {
     "string6": ("E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"),
 }
 
-custom_theme = Theme({
-    "guess_wrong": "bold red",
-    "guess_right":  "green",
-})
+custom_theme = Theme(
+    {
+        "guess_wrong": "bold red",
+        "guess_right": "green",
+    }
+)
 
 console = Console(width=80)
 
 def display_menu():
     console.clear()
     console.rule(f"[bold blue]:guitar: Fretboard Fundamentals:guitar:[/]\n")
-    console.print(f"\n[bold white]Enhance your knowledge of the fretboard[/]\n", justify="center")
+    console.print(
+        f"\n[bold white]Enhance your knowledge of the fretboard[/]\n", justify="center"
+    )
     console.print(f"[bold red]And master your Axe[/]\n", justify="center")
-    console.rule(f"[bold blue]:guitar: Q to Quit, N Another Note :guitar:[/]\n")
+    console.rule(f"[bold blue]:musical_note: Q to Quit, N Another Note :guitar:[/]\n")
 
     # print(Panel.fit("E"), Panel.fit("F"))
-
 
 @click.command()
 def main():
@@ -63,27 +67,34 @@ def main():
     String #5 Fret 4 - C#
 
     """
-    command = ' '
-    while command != 'Q':
+    command = " "
+    while command != "Q":
         string_number = random.randint(STRING1, STRING6)
         fret_number = random.randint(FRET_LOW, FRET_MAX)
-        string = "string"+str(string_number)
+        string = "string" + str(string_number)
         note = fretboard[string][fret_number]
         console.clear()
-        console.rule(f"[bold blue]:guitar: Fretboard Fundamentals:guitar:[/]\n")
-        console.print(f"\n[bold white]What note is at the {string_names[string_number-1]} string fret {fret_number} / S{string_number}F{fret_number}?[/]\n", justify="center")
-        console.rule(f"[bold blue]:guitar: Master Your Axe! :guitar:[/]\n")
+        console.rule(f"[bold blue]:guitar: Fretboard Fundamentals :guitar:[/]\n")
+        console.print(
+            f"\n[bold white]What note is at the {string_names[string_number-1]} string fret {fret_number} / S{string_number}F{fret_number}?[/]\n",
+            justify="center",
+        )
+        console.rule(f"[bold blue]:musical_notes: Master Your Axe! :musical_notes:[/]\n")
 
+        start = time.time()
         guess = console.input("\nYour guess: ").upper()
-        if guess == note:
-            console.print(f"\n[green]CORRECT[/]")
-        else:
-            console.print(f"\n[bold red]WRONG[/], the correct note is {note}")
-        
-        command = console.input("\nTry again? (Any key - guess again, Q - quit): ").upper()
+        end = time.time()
 
+        if guess == note:
+            result = f"\n[green]CORRECT[/]"
+        else:
+            result = f"\n[bold red]WRONG[/], the correct note is {note}"
+        console.print(f"{result} in {end - start:3.2f} seconds")
+
+        command = console.input(
+            "\nTry again? (Any key - guess again, Q - quit): "
+        ).upper()
 
 if __name__ == "__main__":
     main()
-
 
