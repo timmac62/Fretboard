@@ -83,14 +83,17 @@ def random_notes():
             "\nTry again? (Any key - guess again, M - Main menu): "
         ).upper()
 
-
+#
+# present the fretboard to the use with the specified note highlighted
+#
 def display_fretboard(which_note):
     console.clear()
     console.rule(f"[bold blue]:guitar: Fretboard Fundamentals :guitar:[/]\n")
     table = Table(
         title=f"Guitar Fretboard - Standard Tuning",
         style="green",
-        box=box.SIMPLE_HEAVY,
+        # box=box.SIMPLE_HEAVY,
+        box=box.ROUNDED,
         padding=0,
     )
     for fret in range(13):
